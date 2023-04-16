@@ -11,7 +11,13 @@ const columns: ColumnsType<AmortizationRowData> = [
   },
   {
     title: "Monthly Payment",
-    dataIndex: AmortizationTableColumnKey.monthlyPayment,
+    dataIndex: AmortizationTableColumnKey.totalMonthlyPayment,
+    key: "monthlyPayment",
+    render: (value) => `${value}$`,
+  },
+  {
+    title: "Monthly Mortgage Payment",
+    dataIndex: AmortizationTableColumnKey.monthlyMortgagePayment,
     key: "monthlyPayment",
     render: (value) => `${value}$`,
   },
@@ -31,13 +37,15 @@ const columns: ColumnsType<AmortizationRowData> = [
 
 export const createAmortizationTableRow = (
   monthNumber: number,
-  monthlyPayment: number,
+  totalMonthlyPayment: number,
+  monthlyMortgagePayment: number,
   interestPayment: number,
   principalPayment: number
 ): AmortizationRowData => ({
   key: monthNumber,
   month: roundNumber(monthNumber),
-  monthlyPayment: roundNumber(monthlyPayment),
+  totalMonthlyPayment: roundNumber(totalMonthlyPayment),
+  monthlyMortgagePayment: roundNumber(monthlyMortgagePayment),
   interestPayment: roundNumber(interestPayment),
   principalPayment: roundNumber(principalPayment),
 });

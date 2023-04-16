@@ -17,6 +17,8 @@ export const MortgageScreen: React.FC = () => {
     resellAfter,
     resellPrice,
     term,
+    co_fees,
+    taxes,
   } = formValues;
 
   const interestRate = interestRatePercentage && interestRatePercentage / 100;
@@ -31,8 +33,11 @@ export const MortgageScreen: React.FC = () => {
 
   let due = getDueAmount(principal, downPayment);
   let totalInterest = 0;
+  let totalMortgagePayment = 0;
   let totalPayment = 0;
   let totalPrincipalPaid = 0;
+  let totalCoFees = 0;
+  let totalTaxes = 0;
 
   const data = [];
 
@@ -45,11 +50,20 @@ export const MortgageScreen: React.FC = () => {
       const principalPayment = monthlyPayment - interestPayment;
       totalPrincipalPaid += principalPayment;
 
-      totalPayment += monthlyPayment;
+      totalCoFees += co_fees || 0;
+
+      const taxPayment = taxes ? taxes / n : 0;
+      totalTaxes += taxPayment;
+
+      totalMortgagePayment += monthlyPayment;
+
+      const totalMonthlyPayment = monthlyPayment + (co_fees || 0) + taxPayment;
+      totalPayment += totalMonthlyPayment;
 
       data.push(
         createAmortizationTableRow(
           i,
+          totalMonthlyPayment,
           monthlyPayment,
           interestPayment,
           principalPayment
@@ -74,9 +88,12 @@ export const MortgageScreen: React.FC = () => {
             totalInterest={totalInterest}
             principal={principal}
             duration={resellAfter || term}
-            totalPayment={totalPayment}
+            totalMortgagePayment={totalMortgagePayment}
             totalPrincipalPaid={totalPrincipalPaid}
             resellPrice={resellPrice}
+            totalTaxes={totalTaxes}
+            totalCoFees={totalCoFees}
+            totalPayment={totalPayment}
           />
         </Col>
       )}

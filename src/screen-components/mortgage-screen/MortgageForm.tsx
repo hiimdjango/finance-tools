@@ -60,8 +60,15 @@ export const MortgageForm: React.FC = () => {
           placeholder="Resell price"
         />
       </FormItem>
-      <FormItem label="Co-fees">
-        <Input addonAfter="years" type="number" placeholder="Resell after" />
+      <FormItem name={MortgageFormItem.co_fees} label="Monthly co-fees">
+        <Input addonAfter="/month" type="number" placeholder="Resell after" />
+      </FormItem>
+      <FormItem name={MortgageFormItem.taxes} label="Yearly Property taxes">
+        <Input
+          addonAfter="/year"
+          type="number"
+          placeholder="Yearly Property taxes"
+        />
       </FormItem>
     </Form>
   );

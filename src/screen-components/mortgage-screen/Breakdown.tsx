@@ -4,11 +4,14 @@ import { moneyFormat } from "../../utils";
 interface Props {
   principal?: number;
   totalPayment: number;
+  totalMortgagePayment?: number;
   duration?: number;
   resellPrice?: number;
   totalInterest: number;
   totalPrincipalPaid: number;
   due: number;
+  totalTaxes?: number;
+  totalCoFees?: number;
 }
 
 export const Breakdown: React.FC<Props> = ({
@@ -19,6 +22,9 @@ export const Breakdown: React.FC<Props> = ({
   resellPrice,
   totalPayment,
   due,
+  totalCoFees,
+  totalTaxes,
+  totalMortgagePayment,
 }) => {
   return (
     <Row gutter={[16, 16]}>
@@ -26,18 +32,35 @@ export const Breakdown: React.FC<Props> = ({
         title={`Total Paid over ${duration} years`}
         value={totalPayment}
       />
+      <BreakdownCard
+        title={`Total Mortgage payment`}
+        value={totalMortgagePayment || 0}
+      />
       <BreakdownCard title="Total Interest Paid" value={totalInterest} />
       <BreakdownCard title="Total Principal Paid" value={totalPrincipalPaid} />
       {Boolean(resellPrice && principal) && (
         <BreakdownCard
           title="Total Gain/Loss"
-          value={resellPrice! - principal! - totalInterest}
+          value={
+            resellPrice! -
+            principal! -
+            totalInterest -
+            (totalCoFees || 0) -
+            (totalTaxes || 0)
+          }
         />
       )}
       {Boolean(resellPrice && principal && duration) && (
         <BreakdownCard
           title="Monthly Gain/Loss "
-          value={(resellPrice! - principal! - totalInterest) / (12 * duration!)}
+          value={
+            (resellPrice! -
+              principal! -
+              totalInterest -
+              (totalCoFees || 0) -
+              (totalTaxes || 0)) /
+            (12 * duration!)
+          }
         />
       )}
       {Boolean(duration && resellPrice) && (
@@ -45,6 +68,12 @@ export const Breakdown: React.FC<Props> = ({
       )}
       {Boolean(resellPrice && due) && (
         <BreakdownCard title="Cashout" value={resellPrice! - due} />
+      )}
+      {Boolean(totalCoFees) && (
+        <BreakdownCard title="Total Co-fees" value={totalCoFees!} />
+      )}
+      {Boolean(totalTaxes) && (
+        <BreakdownCard title="Total Taxes" value={totalTaxes!} />
       )}
     </Row>
   );

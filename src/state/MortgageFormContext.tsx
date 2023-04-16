@@ -21,7 +21,6 @@ export const MortgageFormProvider = ({
   const updateValues = (input: Record<keyof MortgageForm, string>) => {
     const key = Object.keys(input)[0] as keyof MortgageForm;
     const value = String(input[key]).replaceAll(",", "");
-    console.log(value);
     setFormValues((previousValues) => ({
       ...previousValues,
       [key]: Number(value),
