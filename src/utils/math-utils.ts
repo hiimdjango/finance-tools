@@ -15,4 +15,13 @@ export const getCompoundInterest = (
   return principal * (1 + yearlyInterestRate / n) ** (n * duration) - principal;
 };
 
+export const getMonthlyInterest = (
+  n: number,
+  due?: number,
+  yearlyInterestRate?: number
+) => {
+  if (!due || !yearlyInterestRate) return 0;
+  return (due * yearlyInterestRate) / n;
+};
+
 export const roundNumber = (x: number) => Math.round(x * 100) / 100;

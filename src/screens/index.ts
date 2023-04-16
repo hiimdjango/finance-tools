@@ -1,2 +1,2 @@
 export * from "./CompoundInterestScreen";
-export * from "./MortgagePaymentsScreen";
+export * from "./MortgageScreen";

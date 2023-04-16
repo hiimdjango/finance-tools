@@ -1,11 +1,17 @@
 import styled from "styled-components";
-import { CompoundInterestScreen, MortgagePaymentsScreen } from "./screens";
+import { CompoundInterestScreen, MortgageScreen } from "./screens";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { MortgageFormProvider } from "./state/MortgageFormContext";
+import { Layout } from "antd";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MortgagePaymentsScreen />,
+    element: (
+      <MortgageFormProvider>
+        <MortgageScreen />
+      </MortgageFormProvider>
+    ),
   },
   {
     path: "/compound-interest",
@@ -13,16 +19,21 @@ const router = createBrowserRouter([
   },
 ]);
 
+const { Content } = Layout;
+
 const App = () => {
   return (
-    <StyledApp className="App" style={{ padding: 24 }}>
-      <RouterProvider router={router} />
-    </StyledApp>
+    <Layout>
+      <StyledContent>
+        <RouterProvider router={router} />
+      </StyledContent>
+    </Layout>
   );
 };
 
-const StyledApp = styled.div`
+const StyledContent = styled(Content)`
   padding: 24px;
+  min-height: 100vh;
 `;
 
 export default App;
